@@ -1,0 +1,187 @@
+{
+  "!name": "sqljs-substring",
+  "!define": {
+    "Database.prototype": {
+      "run": {
+        "!type": "fn(sql: ?, params: ?) -> !this",
+        "!span": "12393[391:23]-12398[391:28]",
+        "!doc": "Execute an SQL query, ignoring the rows it returns."
+      },
+      "register_character_tokenizer": {
+        "!type": "fn()",
+        "!span": "12920[410:23]-12950[410:53]",
+        "!doc": "Load the character tokenizer, NOTE: this must be ran before any queries are run, if the tables use the character tokenizer."
+      },
+      "exec": {
+        "!type": "fn(sql: ?) -> [Database.prototype.exec.!ret.<i>]",
+        "!span": "14471[458:23]-14477[458:29]",
+        "!doc": "Execute an SQL query, and returns the result.\r\n\r\nThis is a wrapper against Database.prepare, Statement.step, Statement.get,\r\nand Statement.free.\r\n\r\nThe result is an array of result elements. There are as many result elements\r\nas the number of statements in your sql string (statements are separated by a semicolon)\r\n\r\nEach result element is an object with two properties:\r\n'columns' : the name of the columns of the result (as returned by Statement.getColumnNames())\r\n'values' : an array of rows. Each row is itself an array of values\r\n\r\n# Example use\r\nWe have the following table, named *test* :\r\n\r\n| id | age |  name  |\r\n|:--:|:---:|:------:|\r\n| 1  |  1  | Ling   |\r\n| 2  |  18 | Paul   |\r\n| 3  |  3  | Markus |\r\n\r\n\r\nWe query it like that:\r\n```javascript\r\nvar db = new SQL.Database();\r\nvar res = db.exec(\"SELECT id FROM test; SELECT age,name FROM test;\");\r\n```\r\n\r\n`res` is now :\r\n```javascript\r\n[\r\n{columns: ['id'], values:[[1],[2],[3]]},\r\n{columns: ['age','name'], values:[[1,'Ling'],[18,'Paul'],[3,'Markus']]}\r\n]\r\n```"
+      },
+      "each": {
+        "!type": "fn(sql: ?, params: ?, callback: ?, done: ?)",
+        "!span": "16461[515:23]-16467[515:29]",
+        "!doc": "Execute an sql statement, and call a callback for each row of result.\r\n\r\n*Currently** this method is synchronous, it will not return until the callback has\r\nbeen called on every row of the result. But this might change."
+      },
+      "prepare": {
+        "!type": "fn(sql: ?, params: ?) -> +Statement",
+        "!span": "17224[540:23]-17233[540:32]",
+        "!doc": "Prepare an SQL statement"
+      },
+      "export": {
+        "!type": "fn() -> +Uint8Array",
+        "!span": "17865[561:23]-17873[561:31]",
+        "!doc": "Exports the contents of the database to a binary array"
+      },
+      "close": {
+        "!type": "fn()",
+        "!span": "18414[578:23]-18421[578:30]",
+        "!doc": "Close the database, and all associated prepared statements.\r\n\r\nThe memory associated to the database and all associated statements\r\nwill be freed.\r\n\r\n*Warning**: A statement belonging to a database that has been closed cannot\r\nbe used anymore.\r\n\r\nDatabases **must** be closed, when you're finished with them, or the\r\nmemory consumption will grow forever"
+      },
+      "handleError": {
+        "!type": "fn(returnCode: ?)",
+        "!span": "18886[596:23]-18897[596:34]",
+        "!doc": "Analyze a result code, return null if no error occured, and throw\r\nan error with a descriptive message otherwise"
+      }
+    },
+    "Database.prototype.exec.!ret": "[Database.prototype.exec.!ret.<i>]",
+    "Database.prototype.exec.!ret.<i>": {
+      "values": {
+        "!type": "[[+Uint8Array]]",
+        "!span": "15208[482:14]-15216[482:22]"
+      },
+      "!span": "15139[480:24]-15235[483:13]",
+      "columns": "Statement.prototype.getColumnNames.!ret"
+    },
+    "Database.prototype.prepare.!ret": "+Statement",
+    "Database.prototype.export.!ret": "+Uint8Array",
+    "Statement.prototype": {
+      "bind": {
+        "!type": "fn(values: ([?]|{})) -> bool",
+        "!span": "2429[71:24]-2435[71:30]",
+        "!doc": "Bind values to the parameters, after having reseted the statement.\r\nSQL statements can have parameters, named *'?', '?NNN', ':VVV', '@VVV', '$VVV'*,\r\nwhere NNN is a number and VVV a string.\r\nThis function binds these parameters to the given values.\r\n\r\nWarning*: ':', '@', and '$' are included in the parameters names\r\n\r\n# Binding values to named parameters"
+      },
+      "step": {
+        "!type": "fn() -> bool",
+        "!span": "2921[89:24]-2927[89:30]",
+        "!doc": "Execute the statement, fetching the the next line of result,\r\nthat can be retrieved with [Statement.get()](#get-dynamic) ."
+      },
+      "getNumber": {
+        "!type": "fn(pos: number)",
+        "!span": "3306[105:24]-3315[105:33]"
+      },
+      "getString": {
+        "!type": "fn(pos: number)",
+        "!span": "3484[112:24]-3493[112:33]"
+      },
+      "getBlob": {
+        "!type": "fn(pos: number) -> +Uint8Array",
+        "!span": "3660[119:24]-3667[119:31]"
+      },
+      "get": {
+        "!type": "fn(params: ([?]|{})) -> [+Uint8Array]",
+        "!span": "4648[145:24]-4653[145:29]",
+        "!doc": "Get one row of results of a statement.\r\nIf the first parameter is not provided, step must have been called before get."
+      },
+      "getColumnNames": {
+        "!type": "fn() -> [?]",
+        "!span": "5855[180:24]-5871[180:40]",
+        "!doc": "Get the list of column names of a row of result of a statement."
+      },
+      "getAsObject": {
+        "!type": "fn(params: ([?]|{})) -> Statement.prototype.getAsObject.!ret",
+        "!span": "6799[203:24]-6812[203:37]",
+        "!doc": "Get one row of result as a javascript object, associating column names with\r\ntheir value in the current row."
+      },
+      "run": {
+        "!type": "fn(values: ([?]|{})) -> bool",
+        "!span": "7406[221:24]-7411[221:29]",
+        "!doc": "Shorthand for bind + step + reset\r\nBind the values, execute the statement, ignoring the rows it returns, and resets it"
+      },
+      "bindString": {
+        "!type": "fn(string: ?, pos: number) -> bool",
+        "!span": "7592[229:24]-7602[229:34]"
+      },
+      "bindBlob": {
+        "!type": "fn(array: ?, pos: number) -> bool",
+        "!span": "7984[240:24]-7992[240:32]"
+      },
+      "bindNumber": {
+        "!type": "fn(num: ?, pos: number) -> bool",
+        "!span": "8322[250:24]-8332[250:34]"
+      },
+      "bindNull": {
+        "!type": "fn(pos: number) -> bool",
+        "!span": "8631[260:24]-8639[260:32]"
+      },
+      "bindValue": {
+        "!type": "fn(val: ?, pos: number) -> bool",
+        "!span": "8827[267:24]-8836[267:33]"
+      },
+      "bindFromObject": {
+        "!type": "fn(valuesObj: ([?]|{})) -> bool",
+        "!span": "9619[296:24]-9633[296:38]"
+      },
+      "bindFromArray": {
+        "!type": "fn(values: ([?]|{})) -> bool",
+        "!span": "10061[315:24]-10074[315:37]"
+      },
+      "reset": {
+        "!type": "fn() -> bool",
+        "!span": "10517[329:24]-10524[329:31]",
+        "!doc": "Reset a statement, so that it's parameters can be bound to new values\r\nIt also clears all previous bindings, freeing the memory used by bound parameters."
+      },
+      "freemem": {
+        "!type": "fn()",
+        "!span": "10776[338:24]-10783[338:31]",
+        "!doc": "Free the memory allocated during parameter binding"
+      },
+      "free": {
+        "!type": "fn() -> bool",
+        "!span": "11054[351:24]-11060[351:30]",
+        "!doc": "Free the memory used by the statement"
+      }
+    },
+    "Statement.prototype.get.!ret": "[+Uint8Array]",
+    "Statement.prototype.getColumnNames.!ret": {
+      "!type": "[?]",
+      "!span": "15156[481:14]-15165[481:23]"
+    },
+    "Statement.prototype.getAsObject.!ret": {
+      "!span": "6988[207:18]-6990[207:20]",
+      "<i>": "+Uint8Array"
+    },
+    "Statement.!1": {
+      "filename": {
+        "!type": "string",
+        "!span": "11390[367:11]-11398[367:19]"
+      },
+      "statements": {
+        "!span": "11669[373:11]-11679[373:21]",
+        "<i>": "+Statement"
+      }
+    },
+    "Statement.db": {
+      "!span": "815[28:11]-817[28:13]"
+    },
+    "Statement.pos": {
+      "!type": "number",
+      "!span": "836[29:11]-839[29:14]"
+    },
+    "Statement.allocatedmem": {
+      "!type": "[?]",
+      "!span": "857[30:11]-869[30:23]"
+    },
+    "Database.prototype.exec.!ret.<i>.values.<i>": {
+      "<i>": "+Uint8Array"
+    }
+  },
+  "Database": {
+    "!type": "fn()",
+    "!span": "38[2:6]-46[2:14]"
+  },
+  "Statement": {
+    "!type": "fn(stmt: ?, db: Statement.db)",
+    "!span": "56[2:24]-65[2:33]"
+  },
+  "Uint8Array": "fn()"
+}

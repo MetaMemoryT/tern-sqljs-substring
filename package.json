@@ -1,0 +1,20 @@
+{
+  "name": "tern-sqljs-substring",
+  "version": "0.0.1",
+  "description": "A Tern plugin adding support for sqlite, and a fast, indexed substring search.",
+  "main": "?",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MetaMemoryT/tern-sqljs-substring.git"
+  },
+  "author": "MetaMemoryT",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MetaMemoryT/tern-sqljs-substring/issues"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-exec": "^0.4.6",
+    "load-grunt-tasks": "^0.6.0"
+  }
+}

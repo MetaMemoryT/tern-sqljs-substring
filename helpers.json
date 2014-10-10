@@ -1,0 +1,6 @@
+{
+	"!define" : {
+		"Uint8Array" : {},
+		"Array" : {}
+	}
+}

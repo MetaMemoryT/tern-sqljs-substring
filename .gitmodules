@@ -1,0 +1,3 @@
+[submodule "sql.js"]
+	path = sql.js
+	url = git@github.com:MetaMemoryT/sql.js.git
